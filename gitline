@@ -18,7 +18,7 @@ bag={
 basestr = "/usr/bin/git merge-base {beg} {end}"
 lega  = "/usr/bin/git log --left-right --format=oneline  --abbrev-commit {beg}...{parent}"
 plog  = "git log -n 1 {parent} --format=oneline --abbrev-commit "
-legb  = "/usr/bin/git log --left-right --format=oneline  --abbrev-commit {parent}...{end}"
+legb  = "/usr/bin/git log --left-right --format=oneline  --reverse --abbrev-commit {parent}...{end}"
 
 
 proc = subprocess.Popen(basestr.format(**bag), stdout=subprocess.PIPE, shell=True )
