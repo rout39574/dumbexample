@@ -1,0 +1,40 @@
+#!/usr/bin/python
+
+import argparse
+import subprocess
+
+parser=argparse.ArgumentParser(description="git log between two refs, how I want it")
+
+parser.add_argument('beg')
+parser.add_argument('end')
+
+args=parser.parse_args()
+
+bag={
+    'beg'   : args.beg,
+    'end'   : args.end,
+}	    
+
+basestr = "/usr/bin/git merge-base {beg} {end}"
+lega  = "/usr/bin/git log --left-right --format=oneline  --abbrev-commit {beg}...{parent}"
+plog  = "git log -n 1 {parent} --format=oneline --abbrev-commit "
+legb  = "/usr/bin/git log --left-right --format=oneline  --abbrev-commit {parent}...{end}"
+
+
+proc = subprocess.Popen(basestr.format(**bag), stdout=subprocess.PIPE, shell=True )
+bag['parent'] = proc.stdout.read().rstrip()
+
+proc= subprocess.Popen(lega.format(**bag), stdout=subprocess.PIPE, shell=True )
+print proc.stdout.read().rstrip()
+
+proc= subprocess.Popen(plog.format(**bag), stdout=subprocess.PIPE, shell=True )
+print proc.stdout.read().rstrip()
+
+proc= subprocess.Popen(legb.format(**bag), stdout=subprocess.PIPE, shell=True )
+print proc.stdout.read().rstrip()
+
+
+
+
+
+
